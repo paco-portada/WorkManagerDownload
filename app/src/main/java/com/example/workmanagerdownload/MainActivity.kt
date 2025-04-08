@@ -1,6 +1,5 @@
 package com.example.workmanagerdownload
 
-import android.icu.util.TimeUnit
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,11 +18,13 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.workmanagerdownload.databinding.ActivityMainBinding
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding: ActivityMainBinding
     lateinit var downloadWorkRequest: OneTimeWorkRequest
+    // lateinit var downloadWorkRequest: PeriodicWorkRequest
     var start: Boolean = false
 
     companion object {
@@ -90,9 +91,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             .setInputData(inputWorkData)
             .build()
 
-        // downloadWorkRequest = PeriodicWorkRequestBuilder<DownloadWorker>(1, TimeUnit.HOURS).
-        //        build()
-
+        // downloadWorkRequest = PeriodicWorkRequestBuilder<DownloadWorker>(1, TimeUnit.HOURS).build()
 
         WorkManager.getInstance(this).enqueue(downloadWorkRequest)
 
@@ -137,7 +136,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     public override fun onDestroy() {
         super.onDestroy()
         //cancelar los trabajos con WorkManager
-        if (start)
-            WorkManager.getInstance().cancelAllWork()
+        // if (start)
+            // WorkManager.getInstance().cancelAllWork()
+            WorkManager.getInstance(this).cancelAllWork()
     }
 }
